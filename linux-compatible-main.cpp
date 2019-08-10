@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
-#include <Windows.h>
-#include <ctime>
 
 using namespace std;
 
@@ -25,7 +23,7 @@ void PrintIntro() {
 }
 
 void PlayGame() {
-    // Generate 3 Number Code
+    // 3 number code
     int AlphaCode = rand() % 9 + 1;
     int BravoCode = rand() % 9 + 1;
     int CharlieCode = rand() % 9 + 1;
@@ -37,11 +35,12 @@ void PlayGame() {
 
     if ((CodeSum % 3 == 0) && (TheCheck == AlphaCode || TheCheck == BravoCode || TheCheck == CharlieCode)) {
         cout << endl; // or "\n"
+//        cout << AlphaCode << BravoCode << CharlieCode << endl;
         cout << "INTEL: There are 3 numbers in the code" << ".\n";
         cout << "INTEL: The code adds up to " << CodeSum << ".\n";
         cout << "INTEL: The code product is " << CodeProduct << ".\n";
 
-        // Accept Guesses
+        // Accept guesses
         int GuessAlpha, GuessBravo, GuessCharlie;
         cout << "ENTER CODE:" << endl;
         cin >> GuessAlpha >> GuessBravo >> GuessCharlie;
@@ -50,32 +49,45 @@ void PlayGame() {
         //Display GuessSum & GuessProduct
         int GuessSum = GuessAlpha + GuessBravo + GuessCharlie;
         int GuessProduct = GuessAlpha * GuessBravo * GuessCharlie;
+//        cout << "GUESS SUM: " << GuessSum << endl;
+//        cout << "GUESS PRODUCT: " << GuessProduct << endl;
 
         int StartOver;
         if (GuessSum == CodeSum && GuessProduct == CodeProduct) {
             cout << "ACCESS GRANTED. SITE UNLOCKED.\n\n";
             cout
-                    << "Well done, Agent Duchess. Insert the USB that was included in your dossier and your mission will be marked complete...";
+                    << "Well done, Agent Duchess. Insert the USB that was included in your dossier and your mission will be marked complete...\n\n";
+            cout << "USB DETECTED. COMMENCING DATA COPY....\n";
 
-            char a = 177, b = 219;
-            cout << "\n\n\tUSB DETECTED. COMMENCING DATA COPY....";
-            cout << "\n\n";
-            cout << "\t";
-            for (int  (i) = 0; (i) <= 37; (i)++) {
-                cout << a;
-                Sleep(150);
+
+            float progress = 0.0;
+
+            while (progress <= 1.0) {
+                int barWidth = 38;
+
+                cout << "[";
+                int pos = barWidth * progress;
+                for (int i = 0; i < barWidth; ++i) {
+                    if (i < pos) cout << "|";
+                    else if (i == pos) cout << "|";
+                    else std::cout << " ";
+                }
+                cout << "] " << int(progress * 100.0) << " %\r";
+                cout.flush();
+
+                progress += 0.00019; // for demonstration only
             }
-
-            cout << "\t ";
             cout << endl;
+
+
             cout << endl;
 
             cout << "Your mission is complete. Return to headquarters to be debriefed.\n\n";
-            cout << "Play Again? (1 = Yes / 2 = No):";
+            cout << "Play Again? (1 = Yes / 2 = No): ";
             cin >> StartOver;
             if (StartOver == 1) {
                 PlayGame();
-            } else {
+            } else if (StartOver == 2) {
                 cout << "LOGOFF SUCCESSFUL.";
             }
         } else {
